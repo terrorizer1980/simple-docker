@@ -1,0 +1,16 @@
+{
+  "name": "@connext/docker-contracts",
+  "version": "1.0.0",
+  "description": "Helper to deploy Connext contracts on a local ganache instance.",
+  "scripts": {
+    "deploy": "bash deploy-contracts.sh",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "@connext/types": "4.0.12",
+    "ethers": "4.0.44",
+    "openzeppelin-solidity": "2.3.0"
+  },
+  "author": "",
+  "license": "ISC"
+}

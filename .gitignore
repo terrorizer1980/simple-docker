@@ -1,0 +1,6 @@
+# ignore any package dependencies
+contracts/node_modules
+
+# ignore any ganache logs
+.ganache.log
+contracts/.ganache.log
