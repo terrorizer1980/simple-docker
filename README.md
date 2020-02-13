@@ -28,7 +28,7 @@ createuser "indra-test" --pwprompt --superuser --createdb
 
 Additionally, make sure the `INDRA_ETH_CONTRACT_ADDRESSES` variable is up to date. To verify, check the `address-book.json` file in this repository (master version found in the main indra [repository](https://github.com/ConnextProject/indra/blob/staging/modules/contracts/address-book.json)). The environment variable is simply a string of the value in the `.json` file.
 
-## Running on rinkeby or mainnet
+## Running on rinkeby or mainnet (fastest)
 
 Make sure you have set-up your database correctly as described above. Additionally, you may will want to change the following variables from their defaults:
 
@@ -88,50 +88,50 @@ docker-compose up
 
 ## Description of env vars
 
-- INDRA_ADMIN_TOKEN
+- `INDRA_ADMIN_TOKEN`:
   Used to access admin functions on the node.
 
-- INDRA_ETH_MNEMONIC
+- `INDRA_ETH_MNEMONIC`:
   Mnemonic used by the node in operation and to deploy contracts (if needed)
 
-- INDRA_ETH_RPC_URL
+- `INDRA_ETH_RPC_URL`:
   Any eth provider URL, such as one generated from [Infura](https://infura.io) or [Alchemy](https://alchemyapi.io)
 
-- INDRA_LOG_LEVEL
+- `INDRA_LOG_LEVEL`:
   Setting to configure logs, set to 5 for all logs or to 0 for none
 
-- INDRA_NATS_SERVERS
+- `INDRA_NATS_SERVERS`:
   Messaging server URL
 
-- INDRA_NATS_CLUSTER_ID
+- `INDRA_NATS_CLUSTER_ID`:
   Messaging cluster id
 
-- INDRA_NATS_TOKEN
+- `INDRA_NATS_TOKEN`:
   Token to use for authentication
 
-- INDRA_PG_DATABASE
+- `INDRA_PG_DATABASE`:
   Name of postgres database
 
-- INDRA_PG_HOST
+- `INDRA_PG_HOST`:
   Postgres host (default assumes localhost)
 
-- INDRA_PG_PASSWORD
+- `INDRA_PG_PASSWORD`:
   Password for postgres user
 
-- INDRA_PG_PORT
+- `INDRA_PG_PORT`:
   Port running postgres (defaults to 5432)
 
-- INDRA_PG_USERNAME
+- `INDRA_PG_USERNAME`:
   Postgres user
 
-- INDRA_PORT
+- `INDRA_PORT`:
   Port running indra
 
-- INDRA_REDIS_URL
+- `INDRA_REDIS_URL`:
   URL for redis instance
 
-- NODE_ENV
+- `NODE_ENV`:
   What environment indra is running in (defaults to production).
 
-- INDRA_ETH_CONTRACT_ADDRESSES
+- `INDRA_ETH_CONTRACT_ADDRESSES`:
   Location of core contracts by network, string of contents in `contracts/address-book.json`
