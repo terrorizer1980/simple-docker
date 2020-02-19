@@ -1,9 +1,10 @@
 version: '3'
 services: 
   node:
-    image: "connextproject/indra_node:4.0.12"
+    image: "connextproject/indra_node:4.1.0"
     environment: 
       INDRA_ADMIN_TOKEN: "best-admin-ever"
+      INDRA_ALLOWED_SWAPS: '[{"from":"0xeec918d74c746167564401103096D45BbD494B74","to":"0x0000000000000000000000000000000000000000","priceOracleType":"UNISWAP"},{"from":"0x0000000000000000000000000000000000000000","to":"0xeec918d74c746167564401103096D45BbD494B74","priceOracleType":"UNISWAP"}]'
       INDRA_ETH_MNEMONIC: "candy maple cake sugar pudding cream honey rich smooth crumble sweet treat"
       INDRA_ETH_RPC_URL: "http://host.docker.internal:8545" # any provider
       INDRA_LOG_LEVEL: 3 # set to 5 for all logs or to 0 for none
