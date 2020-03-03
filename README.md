@@ -42,6 +42,8 @@ const signingAddress = HDNode.fromMnemonic(INDRA_ETH_MNEMONIC).derivePath(CF_PAT
 
 - `INDRA_ETH_RPC_URL`: The default value provided here assumes that you will be running on the `ganache` network. Use any eth provider URL, such as one generated from [Infura](https://infura.io) or [Alchemy](https://alchemyapi.io)
 
+- `INDRA_ALLOWED_SWAPS`: The default value provided assumes you will be running on ganache. Check the `address-book.json` to find the supported token value for rinkeby or mainnet.
+
 Once you have updated any environment variables, start the stack by running:
 
 ```bash
@@ -135,3 +137,16 @@ docker-compose up
 
 - `INDRA_ETH_CONTRACT_ADDRESSES`:
   Location of core contracts by network, string of contents in `contracts/address-book.json`
+
+- `INDRA_ALLOWED_SWAPS`:
+  An array of objects with the structure:
+
+  ```javascript
+  {
+    from: "0xeec918d74c746167564401103096D45BbD494B74", // token address on node network
+    to: "0x0000000000000000000000000000000000000000", // token address, AddressZero is ETH
+    priceOracleType: "UNISWAP" // type of price oracle, so far have only implemented uniswap
+  }
+  ```
+
+  that includes all the allowed swaps of the node. Make sure all token addresses correspond to the address on the correct network (the one in the example is for ganache)
