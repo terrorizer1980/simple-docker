@@ -37,7 +37,7 @@ Make sure you have set-up your database correctly as described above. Additional
 ```typescript
 import { CF_PATH } from "@connext/types"; // or use hardcoded: "m/44'/60'/0'/25446"
 import { HDNode } = from "ethers/utils";
-const signingAddress = HDNode.fromMnemonic(INDRA_ETH_MNEMONIC).derivePath(CF_PATH).address;
+const signingAddress = HDNode.fromMnemonic(INDRA_ETH_MNEMONIC).derivePath(CF_PATH).derivePath("0").address;
 ```
 
 - `INDRA_ETH_RPC_URL`: The default value provided here assumes that you will be running on the `ganache` network. Use any eth provider URL, such as one generated from [Infura](https://infura.io) or [Alchemy](https://alchemyapi.io)
