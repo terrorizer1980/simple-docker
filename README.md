@@ -69,7 +69,7 @@ ganache-cli -m "candy maple cake sugar pudding cream honey rich smooth crumble s
 ```bash
 cd contracts
 npm install
-npm run deploy
+npm run deploy # calls deploy-contracts.sh with defaults
 cd ../
 ```
 
