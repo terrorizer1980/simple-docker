@@ -9,7 +9,7 @@ services:
       INDRA_ETH_RPC_URL: "http://host.docker.internal:8545" # any provider
       INDRA_LOG_LEVEL: 3 # set to 5 for all logs or to 0 for none
       INDRA_NATS_CLUSTER_ID: abc123
-      INDRA_NATS_SERVERS: nats://host.docker.internal:4222
+      INDRA_NATS_SERVERS: nats://nats:4222
       INDRA_NATS_TOKEN: abc123
       INDRA_PG_DATABASE: "indra-node"
       INDRA_PG_HOST: "host.docker.internal"
