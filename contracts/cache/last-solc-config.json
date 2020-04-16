@@ -1,0 +1,11 @@
+{
+  "solc": {
+    "version": "0.5.11",
+    "optimizer": {
+      "enabled": false,
+      "runs": 200
+    },
+    "evmVersion": "constantinople"
+  },
+  "buidlerVersion": "1.2.0"
+}

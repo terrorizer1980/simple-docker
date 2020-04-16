@@ -1,4 +1,5 @@
 {
+  "contractName": "Interpreter",
   "abi": [
     {
       "constant": false,
@@ -21,41 +22,8 @@
       "type": "function"
     }
   ],
-  "evm": {
-    "bytecode": {
-      "linkReferences": {},
-      "object": "",
-      "opcodes": "",
-      "sourceMap": ""
-    },
-    "deployedBytecode": {
-      "linkReferences": {},
-      "object": "",
-      "opcodes": "",
-      "sourceMap": ""
-    }
-  },
-  "interface": [
-    {
-      "constant": false,
-      "inputs": [
-        {
-          "internalType": "bytes",
-          "name": "",
-          "type": "bytes"
-        },
-        {
-          "internalType": "bytes",
-          "name": "",
-          "type": "bytes"
-        }
-      ],
-      "name": "interpretOutcomeAndExecuteEffect",
-      "outputs": [],
-      "payable": false,
-      "stateMutability": "nonpayable",
-      "type": "function"
-    }
-  ],
-  "bytecode": ""
+  "bytecode": "0x",
+  "deployedBytecode": "0x",
+  "linkReferences": {},
+  "deployedLinkReferences": {}
 }
