@@ -35,9 +35,8 @@ Make sure you have set-up your database correctly as described above. Additional
 - `INDRA_ETH_MNEMONIC`: The default value supplied is NOT SECURE (generally, don't trust mnemonics found on GitHub). Please change this and fund the signing address with tokens and ETH. The signing address can be found using:
 
 ```typescript
-import { CF_PATH } from "@connext/types"; // or use hardcoded: "m/44'/60'/0'/25446"
-import { HDNode } = from "ethers/utils";
-const signingAddress = HDNode.fromMnemonic(INDRA_ETH_MNEMONIC).derivePath(CF_PATH).derivePath("0").address;
+import { Wallet } = from "ethers/utils";
+const signingAddress = Wallet.fromMnemonic(INDRA_ETH_MNEMONIC).address;
 ```
 
 - `INDRA_ETH_RPC_URL`: The default value provided here assumes that you will be running on the `ganache` network. Use any eth provider URL, such as one generated from [Infura](https://infura.io) or [Alchemy](https://alchemyapi.io)
