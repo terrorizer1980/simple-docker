@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const types_1 = require("@connext/types");
 const utils_1 = require("@connext/utils");
 const ethers_1 = require("ethers");
 const constants_1 = require("ethers/constants");
@@ -12,7 +13,7 @@ exports.setupContext = async (appRegistry, appDefinition, providedWallet) => {
     const ONCHAIN_CHALLENGE_TIMEOUT = 30;
     const DEFAULT_TIMEOUT = 10;
     const CHANNEL_NONCE = parseInt((Math.random() * 100).toString().split(".")[0]);
-    const multisigAddress = utils_1.createRandomAddress();
+    const multisigAddress = utils_1.getRandomAddress();
     const appInstance = new index_1.AppWithCounterClass([alice.address, bob.address], multisigAddress, appDefinition.address, DEFAULT_TIMEOUT, CHANNEL_NONCE);
     const getChallenge = async () => {
         const [status, appStateHash, versionNumber, finalizesAt,] = await appRegistry.functions.getAppChallenge(appInstance.identityHash);
@@ -33,17 +34,17 @@ exports.setupContext = async (appRegistry, appDefinition, providedWallet) => {
     };
     const isProgressable = async () => {
         const challenge = await getChallenge();
-        return await appRegistry.functions.isProgressable(challenge, appInstance.defaultTimeout);
+        return appRegistry.functions.isProgressable(challenge, appInstance.defaultTimeout);
     };
     const isDisputable = async (challenge) => {
         if (!challenge) {
             challenge = await getChallenge();
         }
-        return await appRegistry.functions.isDisputable(challenge);
+        return appRegistry.functions.isDisputable(challenge);
     };
     const isFinalized = async () => {
         const challenge = await getChallenge();
-        return await appRegistry.functions.isFinalized(challenge, appInstance.defaultTimeout);
+        return appRegistry.functions.isFinalized(challenge, appInstance.defaultTimeout);
     };
     const isCancellable = async (challenge) => {
         if (!challenge) {
@@ -54,7 +55,7 @@ exports.setupContext = async (appRegistry, appDefinition, providedWallet) => {
     const hasPassed = (timeout) => {
         return appRegistry.functions.hasPassed(utils_1.toBN(timeout));
     };
-    const verifySignatures = async (digest = utils_1.createRandom32ByteHexString(), signatures, signers) => {
+    const verifySignatures = async (digest = utils_1.getRandomBytes32(), signatures, signers) => {
         if (!signatures) {
             signatures = await utils_3.sortSignaturesBySignerAddress(digest, [
                 await (new utils_1.ChannelSigner(bob.privateKey).signMessage(digest)),
@@ -69,17 +70,17 @@ exports.setupContext = async (appRegistry, appDefinition, providedWallet) => {
     const wrapInEventVerification = async (contractCall, expected = {}) => {
         const { status, appStateHash, finalizesAt, versionNumber } = await getChallenge();
         await index_1.expect(contractCall)
-            .to.emit(appRegistry, "ChallengeUpdated")
+            .to.emit(appRegistry, types_1.ChallengeEvents.ChallengeUpdated)
             .withArgs(appInstance.identityHash, expected.status || status, expected.appStateHash || appStateHash, expected.versionNumber || versionNumber, expected.finalizesAt || finalizesAt);
     };
     const setOutcome = async (encodedFinalState) => {
-        await wrapInEventVerification(appRegistry.functions.setOutcome(appInstance.appIdentity, encodedFinalState || constants_1.HashZero), { status: 4 });
+        await wrapInEventVerification(appRegistry.functions.setOutcome(appInstance.appIdentity, encodedFinalState || constants_1.HashZero), { status: types_1.ChallengeStatus.OUTCOME_SET });
     };
     const setOutcomeAndVerify = async (encodedFinalState) => {
         await setOutcome(encodedFinalState);
         const outcome = await getOutcome();
         index_1.expect(outcome).to.eq(index_1.encodeOutcome());
-        await verifyChallenge({ status: 4 });
+        await verifyChallenge({ status: types_1.ChallengeStatus.OUTCOME_SET });
     };
     const setState = async (versionNumber, appState, timeout = ONCHAIN_CHALLENGE_TIMEOUT) => {
         const stateHash = utils_2.keccak256(appState || constants_1.HashZero);
@@ -94,7 +95,7 @@ exports.setupContext = async (appRegistry, appDefinition, providedWallet) => {
             ]),
         });
         await wrapInEventVerification(call, {
-            status: 1,
+            status: types_1.ChallengeStatus.IN_DISPUTE,
             appStateHash: stateHash,
             versionNumber: utils_1.toBN(versionNumber),
             finalizesAt: utils_1.toBN((await index_1.provider.getBlockNumber()) + timeout + 1),
@@ -105,30 +106,30 @@ exports.setupContext = async (appRegistry, appDefinition, providedWallet) => {
         await verifyChallenge({
             versionNumber: utils_1.toBN(versionNumber),
             appStateHash: utils_2.keccak256(appState || constants_1.HashZero),
-            status: 1,
+            status: types_1.ChallengeStatus.IN_DISPUTE,
         });
     };
     const progressState = async (state, action, signer, resultingState, resultingStateVersionNumber, resultingStateTimeout) => {
         const existingChallenge = await getChallenge();
-        resultingState = (resultingState !== null && resultingState !== void 0 ? resultingState : {
+        resultingState = resultingState !== null && resultingState !== void 0 ? resultingState : {
             counter: action.actionType === index_1.ActionType.ACCEPT_INCREMENT
                 ? state.counter
                 : state.counter.add(action.increment),
-        });
+        };
         const resultingStateHash = utils_2.keccak256(index_1.encodeState(resultingState));
-        resultingStateVersionNumber = (resultingStateVersionNumber !== null && resultingStateVersionNumber !== void 0 ? resultingStateVersionNumber : existingChallenge.versionNumber.add(constants_1.One));
-        resultingStateTimeout = (resultingStateTimeout !== null && resultingStateTimeout !== void 0 ? resultingStateTimeout : 0);
+        resultingStateVersionNumber = resultingStateVersionNumber !== null && resultingStateVersionNumber !== void 0 ? resultingStateVersionNumber : existingChallenge.versionNumber.add(constants_1.One);
+        resultingStateTimeout = resultingStateTimeout !== null && resultingStateTimeout !== void 0 ? resultingStateTimeout : 0;
         const digest = index_1.computeAppChallengeHash(appInstance.identityHash, resultingStateHash, resultingStateVersionNumber, resultingStateTimeout);
         const req = {
             appStateHash: resultingStateHash,
             versionNumber: resultingStateVersionNumber,
             timeout: resultingStateTimeout,
-            signatures: [await utils_1.signChannelMessage(signer.privateKey, digest)],
+            signatures: [await (new utils_1.ChannelSigner(signer.privateKey).signMessage(digest))],
         };
         await wrapInEventVerification(appRegistry.functions.progressState(appInstance.appIdentity, req, index_1.encodeState(state), index_1.encodeAction(action)), {
             status: resultingState.counter.gt(5)
-                ? 3
-                : 2,
+                ? types_1.ChallengeStatus.EXPLICITLY_FINALIZED
+                : types_1.ChallengeStatus.IN_ONCHAIN_PROGRESSION,
             appStateHash: resultingStateHash,
             versionNumber: utils_1.toBN(resultingStateVersionNumber),
             finalizesAt: utils_1.toBN((await index_1.provider.getBlockNumber()) + appInstance.defaultTimeout + 1),
@@ -145,8 +146,8 @@ exports.setupContext = async (appRegistry, appDefinition, providedWallet) => {
         const resultingStateHash = utils_2.keccak256(index_1.encodeState(resultingState));
         const explicitlyFinalized = resultingState.counter.gt(5);
         const status = explicitlyFinalized
-            ? 3
-            : 2;
+            ? types_1.ChallengeStatus.EXPLICITLY_FINALIZED
+            : types_1.ChallengeStatus.IN_ONCHAIN_PROGRESSION;
         const expected = {
             appStateHash: resultingStateHash,
             versionNumber: existingChallenge.versionNumber.add(constants_1.One),
@@ -165,14 +166,14 @@ exports.setupContext = async (appRegistry, appDefinition, providedWallet) => {
         };
         const resultingStateHash = utils_2.keccak256(index_1.encodeState(resultingState));
         const status = resultingState.counter.gt(5)
-            ? 3
-            : 2;
+            ? types_1.ChallengeStatus.EXPLICITLY_FINALIZED
+            : types_1.ChallengeStatus.IN_ONCHAIN_PROGRESSION;
         await verifyChallenge({
             appStateHash: resultingStateHash,
             versionNumber: constants_1.One.add(versionNumber),
             status,
         });
-        index_1.expect(await isProgressable()).to.be.equal(status === 2);
+        index_1.expect(await isProgressable()).to.be.equal(status === types_1.ChallengeStatus.IN_ONCHAIN_PROGRESSION);
     };
     const setAndProgressState = async (versionNumber, state, action, timeout = 0, turnTaker = bob) => {
         const stateHash = utils_2.keccak256(index_1.encodeState(state));
@@ -190,15 +191,17 @@ exports.setupContext = async (appRegistry, appDefinition, providedWallet) => {
             appStateHash: stateHash,
             timeout,
             signatures: await utils_3.sortSignaturesBySignerAddress(stateDigest, [
-                await utils_1.signChannelMessage(alice.privateKey, stateDigest),
-                await utils_1.signChannelMessage(bob.privateKey, stateDigest),
+                await (new utils_1.ChannelSigner(alice.privateKey).signMessage(stateDigest)),
+                await (new utils_1.ChannelSigner(bob.privateKey).signMessage(stateDigest)),
             ]),
         };
         const req2 = {
             versionNumber: constants_1.One.add(versionNumber),
             appStateHash: resultingStateHash,
             timeout: timeout2,
-            signatures: [await utils_1.signChannelMessage(turnTaker.privateKey, resultingStateDigest)],
+            signatures: [
+                await (new utils_1.ChannelSigner(turnTaker.privateKey).signMessage(resultingStateDigest)),
+            ],
         };
         await appRegistry.functions.setAndProgressState(appInstance.appIdentity, req1, req2, index_1.encodeState(state), index_1.encodeAction(action));
     };

@@ -33,10 +33,10 @@ describe("Nim", () => {
         ], [state]);
     }
     async function applyAction(state, action) {
-        return await nim.functions.applyAction(encodeState(state), encodeAction(action));
+        return nim.functions.applyAction(encodeState(state), encodeAction(action));
     }
     async function isStateTerminal(state) {
-        return await nim.functions.isStateTerminal(encodeState(state));
+        return nim.functions.isStateTerminal(encodeState(state));
     }
     before(async () => {
         const wallet = (await utils_2.provider.getWallets())[0];

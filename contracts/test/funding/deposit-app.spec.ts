@@ -14,7 +14,7 @@ import DolphinCoin from "../../build/DolphinCoin.json";
 
 import { Zero, AddressZero } from "ethers/constants";
 
-import { expect, provider, fund } from "../utils";
+import { expect, provider } from "../utils";
 const MAX_INT = new BigNumber(2).pow(256).sub(1);
 
 const decodeTransfers = (encodedTransfers: string): CoinTransfer[] =>
@@ -64,7 +64,7 @@ describe("DepositApp", () => {
   });
 
   const computeOutcome = async (state: DepositAppState): Promise<string> => {
-    return await depositApp.functions.computeOutcome(encodeAppState(state));
+    return depositApp.functions.computeOutcome(encodeAppState(state));
   };
 
   const createInitialState = async (assetId: string): Promise<DepositAppState> => {

@@ -3,6 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const types_1 = require("@connext/types");
 const utils_1 = require("@connext/utils");
 const constants_1 = require("ethers/constants");
 const ethers_1 = require("ethers");
@@ -47,7 +48,7 @@ describe("setState", () => {
             const timeout = 4;
             await setState(versionNumber, state, timeout);
             await verifyChallenge({
-                status: 1,
+                status: types_1.ChallengeStatus.IN_DISPUTE,
                 appStateHash: utils_2.appStateToHash(state),
                 versionNumber: utils_1.toBN(versionNumber),
                 finalizesAt: utils_1.toBN((await utils_2.provider.getBlockNumber()) + timeout),
@@ -59,7 +60,7 @@ describe("setState", () => {
             const timeout = 4;
             await setState(versionNumber, state, timeout);
             await verifyChallenge({
-                status: 1,
+                status: types_1.ChallengeStatus.IN_DISPUTE,
                 appStateHash: utils_2.appStateToHash(state),
                 versionNumber: utils_1.toBN(versionNumber),
                 finalizesAt: utils_1.toBN((await utils_2.provider.getBlockNumber()) + timeout),
@@ -69,7 +70,7 @@ describe("setState", () => {
             const newTimeout = 2;
             await setState(newVersionNumber, newState, newTimeout);
             await verifyChallenge({
-                status: 1,
+                status: types_1.ChallengeStatus.IN_DISPUTE,
                 appStateHash: utils_2.appStateToHash(newState),
                 versionNumber: utils_1.toBN(newVersionNumber),
                 finalizesAt: utils_1.toBN((await utils_2.provider.getBlockNumber()) + newTimeout),
@@ -79,7 +80,7 @@ describe("setState", () => {
             const state = utils_2.randomState();
             await setState(1, state);
             await verifyChallenge({
-                status: 1,
+                status: types_1.ChallengeStatus.IN_DISPUTE,
                 appStateHash: utils_2.appStateToHash(state),
                 versionNumber: utils_1.toBN(1),
             });
@@ -103,7 +104,7 @@ describe("setState", () => {
             const state = utils_2.randomState();
             await setState(1, state);
             await verifyChallenge({
-                status: 1,
+                status: types_1.ChallengeStatus.IN_DISPUTE,
                 appStateHash: utils_2.appStateToHash(state),
                 versionNumber: utils_1.toBN(1),
             });
@@ -113,7 +114,7 @@ describe("setState", () => {
             const state = utils_2.randomState();
             await setState(20, state);
             await verifyChallenge({
-                status: 1,
+                status: types_1.ChallengeStatus.IN_DISPUTE,
                 appStateHash: utils_2.appStateToHash(state),
                 versionNumber: utils_1.toBN(20),
             });

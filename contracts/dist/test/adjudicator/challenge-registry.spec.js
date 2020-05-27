@@ -3,6 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const types_1 = require("@connext/types");
 const utils_1 = require("@connext/utils");
 const ethers_1 = require("ethers");
 const utils_2 = require("ethers/utils");
@@ -63,7 +64,7 @@ describe("ChallengeRegistry", () => {
         };
         await verifyChallenge({
             appStateHash: utils_2.keccak256(utils_3.encodeState(finalState)),
-            status: 3,
+            status: types_1.ChallengeStatus.EXPLICITLY_FINALIZED,
             versionNumber: utils_1.toBN(3),
         });
         await setOutcome(utils_3.encodeState(finalState));

@@ -55,7 +55,7 @@ function encodeAction(state) {
 describe("HighRollerApp", () => {
     let highRollerApp;
     async function computeStateTransition(state, action) {
-        return await highRollerApp.functions.applyAction(encodeState(state), encodeAction(action));
+        return highRollerApp.functions.applyAction(encodeState(state), encodeAction(action));
     }
     async function computeOutcome(state) {
         const [decodedResult] = utils_1.defaultAbiCoder.decode(["uint256"], await highRollerApp.functions.computeOutcome(encodeState(state)));

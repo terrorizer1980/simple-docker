@@ -1,0 +1,21 @@
+{
+  "name": "simple-docker",
+  "version": "0.0.1",
+  "description": "Simple docker file and instructions for getting an indra node up and running.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "docker-compose up"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ConnextProject/simple-docker.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ConnextProject/simple-docker/issues"
+  },
+  "homepage": "https://github.com/ConnextProject/simple-docker#readme",
+  "dependencies": {}
+}

@@ -11,8 +11,7 @@ const config = {
         artifacts: "./build",
     },
     solc: {
-        version: "0.5.11",
-        evmVersion: "constantinople",
+        version: "0.6.7",
     },
     defaultNetwork: "buidlerevm",
     networks: {

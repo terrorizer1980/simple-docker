@@ -88,7 +88,7 @@ function sortAddresses(addrs) {
 }
 exports.sortAddresses = sortAddresses;
 async function sortSignaturesBySignerAddress(digest, signatures) {
-    return (await Promise.all(signatures.map(async (sig) => ({ sig, addr: await utils_1.verifyChannelMessage(digest, sig) }))))
+    return (await Promise.all(signatures.map(async (sig) => ({ sig, addr: await utils_1.recoverAddressFromChannelMessage(digest, sig) }))))
         .sort((a, b) => sortByAddress(a.addr, b.addr))
         .map(x => x.sig);
 }

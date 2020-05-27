@@ -28,7 +28,7 @@ describe("MultiAssetMultiPartyCoinTransferInterpreter", () => {
     let erc20;
     let multiAssetMultiPartyCoinTransferInterpreter;
     async function interpretOutcomeAndExecuteEffect(state, params) {
-        return await multiAssetMultiPartyCoinTransferInterpreter
+        return multiAssetMultiPartyCoinTransferInterpreter
             .functions
             .interpretOutcomeAndExecuteEffect(encodeOutcome(state), encodeParams(params));
     }
@@ -48,7 +48,7 @@ describe("MultiAssetMultiPartyCoinTransferInterpreter", () => {
         });
     });
     it("Can distribute ETH coins only correctly to one person", async () => {
-        const to = utils_1.createRandomAddress();
+        const to = utils_1.getRandomAddress();
         const amount = constants_1.One;
         const preAmountWithdrawn = await getTotalAmountWithdrawn(constants_1.AddressZero);
         await interpretOutcomeAndExecuteEffect([[{ to, amount }]], {
@@ -59,9 +59,9 @@ describe("MultiAssetMultiPartyCoinTransferInterpreter", () => {
         utils_3.expect(await getTotalAmountWithdrawn(constants_1.AddressZero)).to.eq(preAmountWithdrawn.add(constants_1.One));
     });
     it("Can distribute ETH coins only correctly two people", async () => {
-        const to1 = utils_1.createRandomAddress();
+        const to1 = utils_1.getRandomAddress();
         const amount1 = constants_1.One;
-        const to2 = utils_1.createRandomAddress();
+        const to2 = utils_1.getRandomAddress();
         const amount2 = constants_1.One;
         const preAmountWithdrawn = await getTotalAmountWithdrawn(constants_1.AddressZero);
         await interpretOutcomeAndExecuteEffect([
@@ -78,7 +78,7 @@ describe("MultiAssetMultiPartyCoinTransferInterpreter", () => {
         utils_3.expect(await getTotalAmountWithdrawn(constants_1.AddressZero)).to.eq(preAmountWithdrawn.add(constants_1.One).add(constants_1.One));
     });
     it("Can distribute ERC20 coins correctly for one person", async () => {
-        const to = utils_1.createRandomAddress();
+        const to = utils_1.getRandomAddress();
         const amount = constants_1.One;
         const preAmountWithdrawn = await getTotalAmountWithdrawn(erc20.address);
         await interpretOutcomeAndExecuteEffect([[{ to, amount }]], {
@@ -89,9 +89,9 @@ describe("MultiAssetMultiPartyCoinTransferInterpreter", () => {
         utils_3.expect(await getTotalAmountWithdrawn(erc20.address)).to.eq(preAmountWithdrawn.add(constants_1.One));
     });
     it("Can distribute ERC20 coins only correctly two people", async () => {
-        const to1 = utils_1.createRandomAddress();
+        const to1 = utils_1.getRandomAddress();
         const amount1 = constants_1.One;
-        const to2 = utils_1.createRandomAddress();
+        const to2 = utils_1.getRandomAddress();
         const amount2 = constants_1.One;
         const preAmountWithdrawn = await getTotalAmountWithdrawn(erc20.address);
         await interpretOutcomeAndExecuteEffect([
@@ -108,7 +108,7 @@ describe("MultiAssetMultiPartyCoinTransferInterpreter", () => {
         utils_3.expect(await getTotalAmountWithdrawn(erc20.address)).to.eq(preAmountWithdrawn.add(constants_1.One).add(constants_1.One));
     });
     it("Can distribute both ETH and ERC20 coins to one person", async () => {
-        const to = utils_1.createRandomAddress();
+        const to = utils_1.getRandomAddress();
         const amount = constants_1.One;
         const preAmountWithdrawnToken = await getTotalAmountWithdrawn(erc20.address);
         const preAmountWithdrawnEth = await getTotalAmountWithdrawn(constants_1.AddressZero);
@@ -122,9 +122,9 @@ describe("MultiAssetMultiPartyCoinTransferInterpreter", () => {
         utils_3.expect(await getTotalAmountWithdrawn(constants_1.AddressZero)).to.eq(preAmountWithdrawnEth.add(constants_1.One));
     });
     it("Can distribute a split of ETH and ERC20 coins to two people", async () => {
-        const to1 = utils_1.createRandomAddress();
+        const to1 = utils_1.getRandomAddress();
         const amount1 = constants_1.One;
-        const to2 = utils_1.createRandomAddress();
+        const to2 = utils_1.getRandomAddress();
         const amount2 = constants_1.One;
         const preAmountWithdrawnToken = await getTotalAmountWithdrawn(erc20.address);
         const preAmountWithdrawnEth = await getTotalAmountWithdrawn(constants_1.AddressZero);
@@ -138,9 +138,9 @@ describe("MultiAssetMultiPartyCoinTransferInterpreter", () => {
         utils_3.expect(await getTotalAmountWithdrawn(constants_1.AddressZero)).to.eq(preAmountWithdrawnEth.add(constants_1.One));
     });
     it("Can distribute a mix of ETH and ERC20 coins to two people", async () => {
-        const to1 = utils_1.createRandomAddress();
+        const to1 = utils_1.getRandomAddress();
         const amount1 = constants_1.One;
-        const to2 = utils_1.createRandomAddress();
+        const to2 = utils_1.getRandomAddress();
         const amount2 = constants_1.One;
         const preAmountWithdrawnToken = await getTotalAmountWithdrawn(erc20.address);
         const preAmountWithdrawnEth = await getTotalAmountWithdrawn(constants_1.AddressZero);
@@ -165,9 +165,9 @@ describe("MultiAssetMultiPartyCoinTransferInterpreter", () => {
         utils_3.expect(await getTotalAmountWithdrawn(constants_1.AddressZero)).to.eq(preAmountWithdrawnEth.add(constants_1.One).add(constants_1.One));
     });
     it("Can distribute a mix of ETH and ERC20 coins to an unorderded list of people", async () => {
-        const to1 = utils_1.createRandomAddress();
+        const to1 = utils_1.getRandomAddress();
         const amount1 = constants_1.One;
-        const to2 = utils_1.createRandomAddress();
+        const to2 = utils_1.getRandomAddress();
         const amount2 = constants_1.One;
         const preAmountWithdrawnToken = await getTotalAmountWithdrawn(erc20.address);
         const preAmountWithdrawnEth = await getTotalAmountWithdrawn(constants_1.AddressZero);

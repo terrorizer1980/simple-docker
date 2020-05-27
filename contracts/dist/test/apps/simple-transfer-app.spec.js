@@ -26,7 +26,7 @@ const encodeAppState = (state, onlyCoinTransfers = false) => {
 describe("SimpleTransferApp", () => {
     let simpleTransferApp;
     async function computeOutcome(state) {
-        return await simpleTransferApp.functions.computeOutcome(encodeAppState(state));
+        return simpleTransferApp.functions.computeOutcome(encodeAppState(state));
     }
     before(async () => {
         const wallet = (await utils_2.provider.getWallets())[0];

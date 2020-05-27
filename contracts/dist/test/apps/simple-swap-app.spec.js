@@ -25,7 +25,7 @@ const encodeAppState = (state, onlyCoinTransfers = false) => {
 describe("SimpleTwoPartySwapApp", () => {
     let simpleSwapApp;
     async function computeOutcome(state) {
-        return await simpleSwapApp.functions.computeOutcome(encodeAppState(state));
+        return simpleSwapApp.functions.computeOutcome(encodeAppState(state));
     }
     before(async () => {
         const wallet = (await utils_2.provider.getWallets())[0];

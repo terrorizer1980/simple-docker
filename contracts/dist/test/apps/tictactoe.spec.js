@@ -13,7 +13,7 @@ function decodeBytesToAppState(encodedAppState) {
 describe("TicTacToeApp", () => {
     let ticTacToe;
     async function computeOutcome(state) {
-        return await ticTacToe.functions.computeOutcome(encodeState(state));
+        return ticTacToe.functions.computeOutcome(encodeState(state));
     }
     function encodeState(state) {
         return utils_1.defaultAbiCoder.encode([
@@ -42,7 +42,7 @@ describe("TicTacToeApp", () => {
         ], [state]);
     }
     async function applyAction(state, action) {
-        return await ticTacToe.functions.applyAction(encodeState(state), encodeAction(action));
+        return ticTacToe.functions.applyAction(encodeState(state), encodeAction(action));
     }
     before(async () => {
         const wallet = (await utils_2.provider.getWallets())[0];

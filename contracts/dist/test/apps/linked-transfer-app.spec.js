@@ -79,8 +79,8 @@ describe("LinkedUnidirectionalTransferApp", () => {
         const senderAddr = mkAddress("0xa");
         const redeemerAddr = mkAddress("0xb");
         const amount = new utils_2.BigNumber(10);
-        const paymentId = utils_1.createRandom32ByteHexString();
-        const preImage = utils_1.createRandom32ByteHexString();
+        const paymentId = utils_1.getRandomBytes32();
+        const preImage = utils_1.getRandomBytes32();
         const action = {
             amount,
             assetId: constants_1.AddressZero,
@@ -119,8 +119,8 @@ describe("LinkedUnidirectionalTransferApp", () => {
         const senderAddr = mkAddress("0xa");
         const redeemerAddr = mkAddress("0xb");
         const amount = new utils_2.BigNumber(10);
-        const paymentId = utils_1.createRandom32ByteHexString();
-        const preImage = utils_1.createRandom32ByteHexString();
+        const paymentId = utils_1.getRandomBytes32();
+        const preImage = utils_1.getRandomBytes32();
         const action = {
             amount,
             assetId: constants_1.AddressZero,
@@ -128,7 +128,7 @@ describe("LinkedUnidirectionalTransferApp", () => {
             preImage,
         };
         const linkedHash = createLinkedHash(action);
-        const suppliedAction = Object.assign(Object.assign({}, action), { preImage: utils_1.createRandom32ByteHexString() });
+        const suppliedAction = Object.assign(Object.assign({}, action), { preImage: utils_1.getRandomBytes32() });
         const prevState = {
             finalized: false,
             linkedHash,

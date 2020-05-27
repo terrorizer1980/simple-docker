@@ -46,10 +46,10 @@ function createLinkedHash(amount, assetId, paymentId, preImage) {
 describe("SimpleLinkedTransferApp", () => {
     let simpleLinkedTransferApp;
     async function computeOutcome(state) {
-        return await simpleLinkedTransferApp.functions.computeOutcome(encodeAppState(state));
+        return simpleLinkedTransferApp.functions.computeOutcome(encodeAppState(state));
     }
     async function applyAction(state, action) {
-        return await simpleLinkedTransferApp.functions.applyAction(encodeAppState(state), encodeAppAction(action));
+        return simpleLinkedTransferApp.functions.applyAction(encodeAppState(state), encodeAppAction(action));
     }
     before(async () => {
         const wallet = (await utils_2.provider.getWallets())[0];

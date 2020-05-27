@@ -33,7 +33,7 @@ describe("DepositApp", () => {
         proxy = await new ethers_1.ContractFactory(DelegateProxy_json_1.default.abi, DelegateProxy_json_1.default.bytecode, wallet).deploy();
     });
     const computeOutcome = async (state) => {
-        return await depositApp.functions.computeOutcome(encodeAppState(state));
+        return depositApp.functions.computeOutcome(encodeAppState(state));
     };
     const createInitialState = async (assetId) => {
         return {

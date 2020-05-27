@@ -2,7 +2,6 @@
   "contractName": "Interpreter",
   "abi": [
     {
-      "constant": false,
       "inputs": [
         {
           "internalType": "bytes",
@@ -17,7 +16,6 @@
       ],
       "name": "interpretOutcomeAndExecuteEffect",
       "outputs": [],
-      "payable": false,
       "stateMutability": "nonpayable",
       "type": "function"
     }

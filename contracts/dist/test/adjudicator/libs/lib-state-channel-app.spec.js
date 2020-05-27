@@ -3,6 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const types_1 = require("@connext/types");
 const utils_1 = require("@connext/utils");
 const ethers_1 = require("ethers");
 const utils_2 = require("../utils");
@@ -91,7 +92,7 @@ describe("LibStateChannelApp", () => {
             await setAndProgressState(1);
             await verifyChallenge({
                 versionNumber: utils_1.toBN(2),
-                status: 2,
+                status: types_1.ChallengeStatus.IN_ONCHAIN_PROGRESSION,
             });
             await utils_2.moveToBlock(await utils_2.provider.getBlockNumber() + 2);
             utils_2.expect(await isProgressable()).to.be.true;
@@ -123,7 +124,7 @@ describe("LibStateChannelApp", () => {
                 actionType: utils_2.ActionType.SUBMIT_COUNTER_INCREMENT,
                 increment: utils_1.toBN(10),
             });
-            await verifyChallenge({ status: 3 });
+            await verifyChallenge({ status: types_1.ChallengeStatus.EXPLICITLY_FINALIZED });
             utils_2.expect(await isProgressable()).to.be.false;
             utils_2.expect(await isCancellable()).to.be.false;
         });

@@ -1,3 +1,4 @@
+import { AppChallenge } from "@connext/types";
 import { Wallet, Contract } from "ethers";
 import { BigNumberish } from "ethers/utils";
 import { AppWithCounterState, AppWithCounterAction, ActionType, AppWithCounterClass } from "./index";
@@ -21,14 +22,14 @@ export declare const setupContext: (appRegistry: Contract, appDefinition: Contra
     ONCHAIN_CHALLENGE_TIMEOUT: number;
     DEFAULT_TIMEOUT: number;
     appInstance: AppWithCounterClass;
-    getChallenge: () => Promise<import("@connext/types").AppChallenge<import("ethers/utils").BigNumber>>;
-    verifyChallenge: (expected: Partial<import("@connext/types").AppChallenge<import("ethers/utils").BigNumber>>) => Promise<void>;
+    getChallenge: () => Promise<AppChallenge>;
+    verifyChallenge: (expected: Partial<AppChallenge>) => Promise<void>;
     verifyEmptyChallenge: () => Promise<void>;
     isProgressable: () => Promise<any>;
     isFinalized: () => Promise<any>;
-    isCancellable: (challenge?: import("@connext/types").AppChallenge<import("ethers/utils").BigNumber> | undefined) => Promise<any>;
+    isCancellable: (challenge?: AppChallenge | undefined) => Promise<any>;
     hasPassed: (timeout: BigNumberish) => Promise<any>;
-    isDisputable: (challenge?: import("@connext/types").AppChallenge<import("ethers/utils").BigNumber> | undefined) => Promise<any>;
+    isDisputable: (challenge?: AppChallenge | undefined) => Promise<any>;
     verifySignatures: (digest?: string, signatures?: string[] | undefined, signers?: string[] | undefined) => Promise<any>;
     setOutcome: (encodedFinalState?: string | undefined) => Promise<void>;
     setOutcomeAndVerify: (encodedFinalState?: string | undefined) => Promise<void>;

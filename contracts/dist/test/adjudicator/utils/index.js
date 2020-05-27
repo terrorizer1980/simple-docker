@@ -4,11 +4,12 @@ function __export(m) {
 }
 Object.defineProperty(exports, "__esModule", { value: true });
 const types_1 = require("@connext/types");
-const utils_1 = require("ethers/utils");
+const utils_1 = require("@connext/utils");
+const utils_2 = require("ethers/utils");
 const constants_1 = require("ethers/constants");
 __export(require("./context"));
 __export(require("../../utils"));
-exports.randomState = (numBytes = 64) => utils_1.hexlify(utils_1.randomBytes(numBytes));
+exports.randomState = (numBytes = 64) => utils_2.hexlify(utils_2.randomBytes(numBytes));
 var ActionType;
 (function (ActionType) {
     ActionType[ActionType["SUBMIT_COUNTER_INCREMENT"] = 0] = "SUBMIT_COUNTER_INCREMENT";
@@ -21,20 +22,20 @@ var TwoPartyFixedOutcome;
     TwoPartyFixedOutcome[TwoPartyFixedOutcome["SPLIT_AND_SEND_TO_BOTH_ADDRS"] = 2] = "SPLIT_AND_SEND_TO_BOTH_ADDRS";
 })(TwoPartyFixedOutcome = exports.TwoPartyFixedOutcome || (exports.TwoPartyFixedOutcome = {}));
 function encodeState(state) {
-    return utils_1.defaultAbiCoder.encode([`tuple(uint256 counter)`], [state]);
+    return utils_2.defaultAbiCoder.encode([`tuple(uint256 counter)`], [state]);
 }
 exports.encodeState = encodeState;
 function encodeAction(action) {
-    return utils_1.defaultAbiCoder.encode([`tuple(uint8 actionType, uint256 increment)`], [action]);
+    return utils_2.defaultAbiCoder.encode([`tuple(uint8 actionType, uint256 increment)`], [action]);
 }
 exports.encodeAction = encodeAction;
 function encodeOutcome() {
-    return utils_1.defaultAbiCoder.encode([`uint`], [TwoPartyFixedOutcome.SEND_TO_ADDR_ONE]);
+    return utils_2.defaultAbiCoder.encode([`uint`], [TwoPartyFixedOutcome.SEND_TO_ADDR_ONE]);
 }
 exports.encodeOutcome = encodeOutcome;
-exports.computeCancelDisputeHash = (identityHash, versionNumber) => utils_1.keccak256(utils_1.solidityPack(["uint8", "bytes32", "uint256"], [types_1.CommitmentTarget.CANCEL_DISPUTE, identityHash, versionNumber]));
-exports.appStateToHash = (state) => utils_1.keccak256(state);
-exports.computeAppChallengeHash = (id, appStateHash, versionNumber, timeout) => utils_1.keccak256(utils_1.solidityPack(["uint8", "bytes32", "bytes32", "uint256", "uint256"], [types_1.CommitmentTarget.SET_STATE, id, appStateHash, versionNumber, timeout]));
+exports.computeCancelDisputeHash = (identityHash, versionNumber) => utils_2.keccak256(utils_2.solidityPack(["uint8", "bytes32", "uint256"], [types_1.CommitmentTarget.CANCEL_DISPUTE, identityHash, versionNumber]));
+exports.appStateToHash = (state) => utils_2.keccak256(state);
+exports.computeAppChallengeHash = (id, appStateHash, versionNumber, timeout) => utils_2.keccak256(utils_2.solidityPack(["uint8", "bytes32", "bytes32", "uint256", "uint256"], [types_1.CommitmentTarget.SET_STATE, id, appStateHash, versionNumber, timeout]));
 class AppWithCounterClass {
     constructor(participants, multisigAddress, appDefinition, defaultTimeout, channelNonce) {
         this.participants = participants;
@@ -44,12 +45,12 @@ class AppWithCounterClass {
         this.channelNonce = channelNonce;
     }
     get identityHash() {
-        return utils_1.keccak256(utils_1.solidityPack(["address", "uint256", "bytes32", "address", "uint256"], [
+        return utils_2.keccak256(utils_2.solidityPack(["address", "uint256", "bytes32", "address", "uint256"], [
             this.multisigAddress,
             this.channelNonce,
-            utils_1.keccak256(utils_1.solidityPack(["address[]"], [this.participants])),
+            utils_2.keccak256(utils_2.solidityPack(["address[]"], [this.participants])),
             this.appDefinition,
-            this.defaultTimeout
+            this.defaultTimeout,
         ]));
     }
     get appIdentity() {
@@ -57,8 +58,8 @@ class AppWithCounterClass {
             participants: this.participants,
             multisigAddress: this.multisigAddress,
             appDefinition: this.appDefinition,
-            defaultTimeout: this.defaultTimeout.toString(),
-            channelNonce: this.channelNonce.toString(),
+            defaultTimeout: utils_1.toBN(this.defaultTimeout),
+            channelNonce: utils_1.toBN(this.channelNonce),
         };
     }
 }
@@ -66,7 +67,7 @@ exports.AppWithCounterClass = AppWithCounterClass;
 exports.EMPTY_CHALLENGE = {
     versionNumber: constants_1.Zero,
     appStateHash: constants_1.HashZero,
-    status: 0,
+    status: types_1.ChallengeStatus.NO_CHALLENGE,
     finalizesAt: constants_1.Zero,
 };
 //# sourceMappingURL=index.js.map

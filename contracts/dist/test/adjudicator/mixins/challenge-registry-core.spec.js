@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const ethers_1 = require("ethers");
 const constants_1 = require("ethers/constants");
+const types_1 = require("@connext/types");
 const utils_1 = require("@connext/utils");
 const utils_2 = require("ethers/utils");
 const utils_3 = require("../utils");
@@ -51,7 +52,7 @@ describe("MChallengeRegistryCore", () => {
             await verifyChallenge({
                 appStateHash: utils_2.keccak256(utils_3.encodeState(resultingState)),
                 versionNumber: utils_1.toBN(2),
-                status: 3,
+                status: types_1.ChallengeStatus.EXPLICITLY_FINALIZED,
             });
             utils_3.expect(await isFinalized()).to.be.true;
         });
@@ -59,7 +60,7 @@ describe("MChallengeRegistryCore", () => {
             await setState(1);
             await verifyChallenge({
                 versionNumber: constants_1.One,
-                status: 1,
+                status: types_1.ChallengeStatus.IN_DISPUTE,
             });
             await utils_3.moveToBlock(await utils_3.provider.getBlockNumber() + ONCHAIN_CHALLENGE_TIMEOUT + ONCHAIN_CHALLENGE_TIMEOUT + 2);
             utils_3.expect(await isFinalized()).to.be.true;
@@ -68,7 +69,7 @@ describe("MChallengeRegistryCore", () => {
             await setAndProgressState(1);
             await verifyChallenge({
                 versionNumber: utils_1.toBN(2),
-                status: 2,
+                status: types_1.ChallengeStatus.IN_ONCHAIN_PROGRESSION,
             });
             await utils_3.moveToBlock(await utils_3.provider.getBlockNumber() + ONCHAIN_CHALLENGE_TIMEOUT + 2);
             utils_3.expect(await isFinalized()).to.be.true;
@@ -77,7 +78,7 @@ describe("MChallengeRegistryCore", () => {
             await setState(1);
             await verifyChallenge({
                 versionNumber: constants_1.One,
-                status: 1,
+                status: types_1.ChallengeStatus.IN_DISPUTE,
             });
             utils_3.expect(await isFinalized()).to.be.false;
         });
@@ -85,7 +86,7 @@ describe("MChallengeRegistryCore", () => {
             await setAndProgressState(1);
             await verifyChallenge({
                 versionNumber: utils_1.toBN(2),
-                status: 2,
+                status: types_1.ChallengeStatus.IN_ONCHAIN_PROGRESSION,
             });
             utils_3.expect(await isFinalized()).to.be.false;
         });
