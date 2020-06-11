@@ -23,6 +23,7 @@ services:
       - '8080:8080'
     environment: 
       INDRA_ADMIN_TOKEN: "best-admin-ever"
+      INDRA_SUPPORTED_TOKENS: '0x0d8cc4b8d15D4c3eF1d70af0071376fb26B5669b,0x0000000000000000000000000000000000000000'
       INDRA_ALLOWED_SWAPS: '[{"from":"0x0d8cc4b8d15D4c3eF1d70af0071376fb26B5669b","to":"0x0000000000000000000000000000000000000000","priceOracleType":"HARDCODED"},{"from":"0x0000000000000000000000000000000000000000","to":"0x0d8cc4b8d15D4c3eF1d70af0071376fb26B5669b","priceOracleType":"HARDCODED"}]'
       INDRA_ETH_MNEMONIC: "candy maple cake sugar pudding cream honey rich smooth crumble sweet treat"
       INDRA_ETH_RPC_URL: "http://host.docker.internal:8545" # any provider

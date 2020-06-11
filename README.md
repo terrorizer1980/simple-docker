@@ -85,13 +85,29 @@ In `ops/entry.sh` the default eth provider (`"http://localhost:8545"`) and mnemo
 ETH_PROVIDER="provider-of-your-choice" ETH_MNEMONIC="mnemonic-of-your-choice" bash ops/entry.sh deploy
 ```
 
-3. Ensure your `INDRA_ETH_CONTRACT_ADDRESSES` is up to date with `address-book.json` in the `docker-compose.yml` file
+3. Ensure your `INDRA_ETH_CONTRACT_ADDRESSES`, `INDRA_SUPPORTED_TOKENS`, and `INDRA_ALLOWED_SWAPS` values are up to date with `address-book.json` in the `docker-compose.yml` file. (You'll want to set the `priceOracleType = HARDCODED` in the `INDRA_ALLOWED_SWAPS` object).
 
 4. Start docker stack:
 
 ```bash
 npm run start
 ```
+
+## Running an example
+
+Check out [index.js](./index.js) to see an example. To run the example, start the node as described above and run the following in a terminal window:
+
+```bash
+
+# Using rinkeby/mainnet
+NODE_URL="NODE_URL" ETH_URL="ETH_URL" FUNDER="FUNDER" node index.js
+# here, FUNDER is a funded mnemonic on your chain
+
+# or, using Ganache + default values
+npm run start
+```
+
+NOTE: This example will deposit some funds into a channel without deliberately storing the mnemonic, please be aware of this if running the example on mainnet.
 
 ## Description of env vars
 
@@ -142,6 +158,9 @@ npm run start
 
 - `INDRA_ETH_CONTRACT_ADDRESSES`:
   Location of core contracts by network, string of contents in `contracts/address-book.json`
+
+- `INDRA_SUPPORTED_TOKENS`:
+  List of supported token addresses.
 
 - `INDRA_ALLOWED_SWAPS`:
   An array of objects with the structure:
