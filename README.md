@@ -76,7 +76,7 @@ npm run start-chain
 2. Deploy the contracts to your ganache network:
 
 ```bash
-npm run deploy-ganache # calls deploy-contracts.sh with defaults
+npm run deploy-ganache # calls entry.sh with defaults
 ```
 
 In `ops/entry.sh` the default eth provider (`"http://localhost:8545"`) and mnemonic (`"candy maple cake sugar pudding cream honey rich smooth crumble sweet treat"`) are set. You may either customize these default values in the file, or run the following to set custom values:
