@@ -28,6 +28,12 @@ createuser "indra-test" --pwprompt --superuser --createdb
 
 Additionally, make sure the `INDRA_ETH_CONTRACT_ADDRESSES` variable is up to date. To verify, check the `address-book.json` file in this repository (master version found in the main indra [repository](https://github.com/ConnextProject/indra/blob/staging/modules/contracts/address-book.json)). The environment variable is simply a string of the value in the `.json` file.
 
+Finally, if you are planning on running on ganache, don't forget to install all dependencies:
+
+```bash
+npm install
+```
+
 ## Running on rinkeby or mainnet (fastest)
 
 Make sure you have set-up your database correctly as described above. Additionally, you may will want to change the following variables from their defaults:
@@ -41,12 +47,12 @@ const signingAddress = Wallet.fromMnemonic(INDRA_ETH_MNEMONIC).address;
 
 - `INDRA_ETH_RPC_URL`: The default value provided here assumes that you will be running on the `ganache` network. Use any eth provider URL, such as one generated from [Infura](https://infura.io) or [Alchemy](https://alchemyapi.io)
 
-- `INDRA_ALLOWED_SWAPS`: The default value provided assumes you will be running on ganache. Check the `address-book.json` to find the supported token value for rinkeby or mainnet.
+- `INDRA_ALLOWED_SWAPS`: The default value provided assumes you will be running on ganache. Check the `address-book.json` to find the supported token value for rinkeby or mainnet. Additionally, updat the `type` field to be `"HARDCODED"`
 
 Once you have updated any environment variables, start the stack by running:
 
 ```bash
-docker-compose up
+npm run start
 ```
 
 ## Running on Ganache
@@ -61,22 +67,22 @@ To run the node on ganache, you will need to take the additional step of deployi
 # Use the value from `INDRA_ETH_MNEMONIC` to start ganache. Also make sure to specify the
 # network ID and increase the default balance of ether (accounts are funded in
 # `migrate-contracts.js`)
-ganache-cli -m "candy maple cake sugar pudding cream honey rich smooth crumble sweet treat" -i 4447 --defaultBalanceEther="1000000000"
+ganache-cli -m "candy maple cake sugar pudding cream honey rich smooth crumble sweet treat" -i 1337 --defaultBalanceEther="1000000000"
+
+# Alternatively, just run
+npm run start-chain
 ```
 
 2. Deploy the contracts to your ganache network:
 
 ```bash
-cd contracts
-npm install
-npm run deploy # calls deploy-contracts.sh with defaults
-cd ../
+npm run deploy-ganache # calls deploy-contracts.sh with defaults
 ```
 
-In `deploy-contracts.sh` the default eth provider (`"http://localhost:8545"`) and mnemonic (`"candy maple cake sugar pudding cream honey rich smooth crumble sweet treat"`) are set. You may either customize these default values in the file, or run the following to set custom values:
+In `ops/entry.sh` the default eth provider (`"http://localhost:8545"`) and mnemonic (`"candy maple cake sugar pudding cream honey rich smooth crumble sweet treat"`) are set. You may either customize these default values in the file, or run the following to set custom values:
 
 ```bash
-ETH_PROVIDER="provider-of-your-choice" ETH_MNEMONIC="mnemonic-of-your-choice" bash deploy-contracts.sh
+ETH_PROVIDER="provider-of-your-choice" ETH_MNEMONIC="mnemonic-of-your-choice" bash ops/entry.sh deploy
 ```
 
 3. Ensure your `INDRA_ETH_CONTRACT_ADDRESSES` is up to date with `address-book.json` in the `docker-compose.yml` file
@@ -84,7 +90,7 @@ ETH_PROVIDER="provider-of-your-choice" ETH_MNEMONIC="mnemonic-of-your-choice" ba
 4. Start docker stack:
 
 ```bash
-docker-compose up
+npm run start
 ```
 
 ## Description of env vars

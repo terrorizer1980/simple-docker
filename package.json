@@ -4,8 +4,9 @@
   "description": "Simple docker file and instructions for getting an indra node up and running.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "docker-compose up"
+    "deploy": "bash ops/entry.sh deploy",
+    "start": "docker-compose up",
+    "start-chain": "bash ops/entry.sh start"
   },
   "repository": {
     "type": "git",
@@ -17,5 +18,12 @@
     "url": "https://github.com/ConnextProject/simple-docker/issues"
   },
   "homepage": "https://github.com/ConnextProject/simple-docker#readme",
-  "dependencies": {}
+  "dependencies": {
+    "@connext/contracts": "3.2.3",
+    "@connext/utils": "7.0.0-alpha.0",
+    "@openzeppelin/contracts": "3.0.1",
+    "ethers": "5.0.0-beta.190",
+    "ganache-cli": "6.9.1"
+  },
+  "devDependencies": {}
 }
