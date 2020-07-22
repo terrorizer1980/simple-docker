@@ -20,11 +20,11 @@
   },
   "homepage": "https://github.com/ConnextProject/simple-docker#readme",
   "dependencies": {
-    "@connext/client": "7.0.0-alpha.0",
-    "@connext/contracts": "3.2.3",
-    "@connext/utils": "7.0.0-alpha.0",
-    "@openzeppelin/contracts": "3.0.1",
-    "ethers": "5.0.0-beta.190",
+    "@connext/client": "7.0.0",
+    "@connext/contracts": "3.4.1",
+    "@connext/utils": "7.0.0",
+    "@openzeppelin/contracts": "3.1.0",
+    "ethers": "5.0.7",
     "ganache-cli": "6.9.1"
   },
   "devDependencies": {}
