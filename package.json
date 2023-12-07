@@ -20,7 +20,7 @@
   },
   "homepage": "https://github.com/ConnextProject/simple-docker#readme",
   "dependencies": {
-    "@connext/client": "7.0.0",
+    "@connext/client": "7.2.1",
     "@connext/contracts": "3.4.1",
     "@connext/utils": "7.0.0",
     "@openzeppelin/contracts": "3.1.0",
