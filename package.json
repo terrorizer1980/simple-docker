@@ -25,7 +25,7 @@
     "@connext/utils": "7.0.0",
     "@openzeppelin/contracts": "3.1.0",
     "ethers": "5.0.7",
-    "ganache-cli": "6.9.1"
+    "ganache-cli": "6.12.2"
   },
   "devDependencies": {}
 }
